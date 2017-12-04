@@ -17,10 +17,11 @@ class Command(BaseCommand):
         for line in ref:
             line = line.strip()
             fields = line.split("\t")
+            print(line)
             if len(line) == 0 or line[0] == "#":
                 continue
 
-            elif line[0] == "R":
+            elif fields[0] == "R":
                 last_reference = models.Reference.objects.get(pk=fields[1])
 
             else:
