@@ -21,8 +21,8 @@ class Monster(models.Model):
     name = models.CharField(max_length=64)
     reference = models.ForeignKey('Reference')
 
-    monster_image = models.ImageField(upload_to="uploads/monsters/", null=True)
-    record_image = models.ImageField(upload_to="uploads/monsters/", null=True)
+    monster_image = models.ImageField(upload_to="monsters/", null=True)
+    record_image = models.ImageField(upload_to="monsters/", null=True)
 
     scientist_name = models.CharField(max_length=64)
     institute_name = models.CharField(max_length=64)
