@@ -1,0 +1,140 @@
+{% load static %}
+{% include 'monster/header.html' %}
+
+<div style='
+    width: 100%;
+    height: 700px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url("{{ monster.record_image.url }}");
+    margin-bottom: 25px;
+    background-size: cover;
+    '>
+<div class="mast">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <span class="badge badge-success">Monster</span>
+                <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.id }}</span>
+                <h1>{{ monster.name }}</h1>
+            </div>
+            <div class="col-md-2 text-right">
+                <span class="badge badge-default">Scientist Name</span>
+                <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.scientist_name }}</span>
+                <span class="badge badge-default">Scientist Institute</span>
+                <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.institute_name }}</span>
+            </div>
+            <div class="col-md-2 text-right">
+                <span class="badge badge-default">Sequencing Event</span>
+                <span class="uuid-mast" style="margin-top:0; padding-top:0;"><code>PAUSW17</code></span>
+                <span class="badge badge-default">Sequencing Center</span>
+                <span class="uuid-mast" style="margin-top:0; padding-top:0;">Aberystwyth University</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--<div style="background-color: white; height:500px; overflow: hidden; margin-bottom: 25px">
+    <img style="height: 500px; object-fit: none; object-position: 50% 45%; width:100%" src="{{ monster.record_image.url }}" />
+</div>-->
+
+<div class="container">
+    <div class="row">
+    <div class="col-md-12">
+        <table class="table table-active table-sm borderless text-center">
+            <thead class="thead-inverse">
+                <tr>
+                {% for ref, allele in annotations %}
+                    <th class="text-center">1:{{ ref.position }}</th>
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                {% for ref, allele in annotations %}
+                <td class="cell-hover">
+                    <span class="badge badge-danger">{{ ref.variant }}</span></br>
+                    {% if allele %}
+                    <span class="base">{{ allele.allele.sequence }}</span>
+                    {% else %}
+                    <span class="base">N</span>
+                    {% endif %}
+                </td>
+                {% endfor %}
+                </tr>
+
+                <tr class="thead-inverse">
+                {% for ref, allele in annotations %}
+                    <th class="text-center">
+                        {% for gene in ref.variant.effects %}
+                        <span style="color:black;" class="badge badge-warning">{{ gene }}</span></br>
+                        {% endfor %}
+                    </th>
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+<hr>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2> Variants </h2>
+        {% for ref, allele in annotations %}
+            <table class="table table-hover table-active table-sm borderless">
+                <tr style="background-color: #444; color: white;">
+                    <th colspan=3><span class="badge badge-danger">Variant</span> <span>{{ ref.variant }}</span></th>
+                </tr>
+
+                {% for e in allele.allele.varianteffect_set.all %}
+                <tr style="background-color: #aaa;">
+                    <!--<td width="2%" style="background-color: #444"></td>-->
+                    <th>{{ e.gene.desc }}</th>
+                    <th width="5%" class="text-right"><span class="badge badge-warning">Gene</span></th>
+                    <th width="5%" class="text-right"><span>{{ e.gene.code }}</span></th>
+                </tr>
+
+                <tr>
+                    <td>{{ e.summary }}</td>
+                    <th class="text-right"><span class="badge badge-success">Allele</span></th>
+                    <th class="text-right"><span>{{ e.allele.variant }}:{{ e.allele.sequence }}</span></th>
+                </tr>
+
+                {% endfor %}
+            </table>
+        {% endfor %}
+    </div>
+    <div class="col-md-6">
+        <h2> Genes </h2>
+        {% for gene, variants in monster.reference.annotated_genes.items %}
+            
+            <table class="table table-hover table-active table-sm borderless">
+                <tr style="background-color: #444; color: white;">
+                    <th colspan=3><span class="badge badge-warning">Gene</span> <span>{{ gene }}</span></th>
+                </tr>
+
+                {% for v, effects in variants.items %}
+                <tr style="background-color: #aaa;">
+                    <th colspan=3><span class="badge badge-danger">Variant</span> <span>{{ v }}</span></th>
+                </tr>
+
+                {% for e in effects %}
+                <tr>
+                    <th width="2%">
+                        {% if e.allele in monster.alleles %}
+                            *
+                        {% endif %}
+                    </th>
+                    <td>{{ e.summary }}</td>
+                    <th class="text-right"><span class="badge badge-success">Allele</span> <span>{{ e.allele.variant }}:{{ e.allele.sequence }}</span></th>
+                </tr>
+                {% endfor %}
+
+                {% endfor %}
+            </table>
+        {% endfor %}
+    </div>
+</div>
