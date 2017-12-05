@@ -1,9 +1,31 @@
 {% load static %}
 {% include 'monster/header.html' %}
 
+    <div style='
+        height: 550px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-image: url("https://monster-lab.org/static/banner.jpg");
+        margin-bottom: 25px;
+        background-size: cover;
+        '>
+        <div class="container text-right" style="color: white; padding-top: 50px">
+          <div class="row" style="background-color: rgba(50, 50, 50, 0.5);">
+              <div class="col-md-5"></div>
+              <div class="col-md-7">
+        <h1 style="font-size: 5em">Hello.</h1>
+        <h3 style="font-size: 3em">We sequence monsters.</h3>
+        <p><b>Monster Lab is a public engagement project to introduce schoolchildren to concepts of genomics and DNA sequencing. Participants build a DNA sequence from Lego blocks, and sequence them with a computer that converts the coloured blocks to a DNA sequence. Participants use a gene sheet that describes how each base affects how their monster looks to draw a monster for the Monster Lab directory.</b></p>
+        <p><b><a href="https://twitter.com/monsterdnalab"><span class="badge badge-info">@MonsterDNALab</span></a> was lovingly crafted by <a href="https://twitter.com/samstudio8"><span class="badge badge-primary">@samstudio8</span></a> and <a href="https://twitter.com/tomjblanchard"><span class="badge badge-primary">@tomjblanchard</span></a>, <a href="https://samnicholls.net/2017/03/15/lego-sequencer/"><span class="badge badge-success">read more...</span></a></b></p>
+        </div>
+        </div>
+        </div>
+    </div>
+
 <div class="container" style="margin-top: 25px;">
     <div class="row">
     <div class="col-md-12">
+
         <table class="table table-active">
             <tbody>
             {% for monster in monsters %}
@@ -28,4 +50,5 @@
         </table>
     </div>
     </div>
-</div>
+
+{% include 'monster/footer.html' %}
