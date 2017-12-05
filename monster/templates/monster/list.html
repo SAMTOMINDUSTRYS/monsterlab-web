@@ -1,4 +1,5 @@
 {% load static %}
+{% load thumbnail %}
 {% include 'monster/header.html' %}
 
     <div style='
@@ -32,7 +33,7 @@
                 <tr>
                     <td width=250px class="text-center" style="background-color: #888">
                     {% if monster.record_image %}
-                    <a href="{% url 'detail' monster.id %}"><img height=200px src="{{ monster.record_image.url }}" /></a>
+                    <a href="{% url 'detail' monster.id %}"><img height=200px src="{% thumbnail monster.record_image 141x200 crop %}" /></a>
                     {% endif %}
                     </td>
 
