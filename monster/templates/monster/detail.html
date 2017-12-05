@@ -92,7 +92,7 @@
                 {% for e in allele.allele.varianteffect_set.all %}
                 <tr style="background-color: #aaa;">
                     <!--<td width="2%" style="background-color: #444"></td>-->
-                    <th>{{ e.gene.desc }}</th>
+                    <td><b>{{ e.gene.name }}</b> ({{ e.gene.desc }})</td>
                     <th width="5%" class="text-right"><span class="badge badge-warning">Gene</span></th>
                     <th width="5%" class="text-right"><span>{{ e.gene.code }}</span></th>
                 </tr>
@@ -129,7 +129,7 @@
                         {% endif %}
                     </th>
                     <td>{{ e.summary }}</td>
-                    <th class="text-right"><span class="badge badge-success">Allele</span> <span>{{ e.allele.variant }}:{{ e.allele.sequence }}</span></th>
+                    <td class="text-right"><b>{{ e.allele.proportion }}%</b> <span class="badge badge-success">Allele</span> <span>{{ e.allele.variant }}:{{ e.allele.sequence }}</span></th>
                 </tr>
                 {% endfor %}
 

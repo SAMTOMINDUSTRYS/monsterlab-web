@@ -8,13 +8,20 @@
             <tbody>
             {% for monster in monsters %}
                 <tr>
-                    <td>
+                    <td width=250px class="text-center" style="background-color: #888">
                     {% if monster.record_image %}
-                    <img height=200px src="{{ monster.record_image.url }}" />
+                    <a href="{% url 'detail' monster.id %}"><img height=200px src="{{ monster.record_image.url }}" /></a>
                     {% endif %}
                     </td>
-                    <td><a href="{% url 'detail' monster.id %}">{{ monster.id }}</a></br><h1>{{ monster.name }}</h1></td>
-                    <td>{{ monster.scientist_name }}</br>{{ monster.institute_name }}</td>
+
+                    <td>
+                        <span class="badge badge-success">Monster</span>
+                        <a style="font-weight: bold; font-size: 0.8em" href="{% url 'detail' monster.id %}">{{ monster.id }}</a></br><h1><b>{{ monster.name }}</b></h1>
+                        <span class="badge badge-default">Scientist Name</span>
+                        <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.scientist_name }}</span>
+                        <span class="badge badge-default">Scientist Institute</span>
+                        <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.institute_name }}</span>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
