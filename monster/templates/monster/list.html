@@ -31,7 +31,7 @@
                             <span class="badge badge-success">Monster</span><br/>
                             <a class="text-muted" style="font-weight: bold; font-size: 0.65em" href="{% url 'detail' monster.id %}">{{ monster.id }}</a><br/>
                     </div>
-                    <a href="{% url 'detail' monster.id %}"><img class="card-img-top" src="{% thumbnail monster.record_image 249x200 crop %}" alt="{{ monster.name }}"></a>
+                    <div class="text-center"><a href="{% url 'detail' monster.id %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
                     <div class="card-header">
                       <h2 class="card-title">{{ monster.name }}</h2>
                     </div>
