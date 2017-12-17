@@ -30,3 +30,24 @@ def detail(request, monster_uuid):
         "monster": monster,
         "annotations": zip(reference, alleles),
     })
+
+def list_monster_allele(request, variant_uuid, allele=None):
+
+    if allele:
+        allele = models.VariantAllele.objects.get(variant_id=variant_uuid, sequence=allele)
+    else:
+        allele = models.VariantAllele.objects.filter(variant_id=variant_uuid).first()
+
+    monsters = []
+    for mv in allele.monstervariant_set.all():
+        monsters.append( mv.monster )
+
+    loci = {}
+    for annot in models.ReferenceAnnotation.objects.filter(variant_id=variant_uuid):
+        loci[annot.reference.name] = (annot.prev, annot, annot.next)
+
+    return render(request, 'monster/allele.html', {
+        "allele": allele,
+        "monsters": monsters,
+        "loci": loci,
+    })

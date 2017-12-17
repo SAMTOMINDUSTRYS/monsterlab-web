@@ -98,9 +98,8 @@
                 </tr>
 
                 <tr>
-                    <td>{{ e.summary }}</td>
-                    <th class="text-right"><span class="badge badge-success">Allele</span></th>
-                    <th class="text-right"><span>{{ e.allele.variant }}:{{ e.allele.sequence }}</span></th>
+                    <td colspan=2>{{ e.summary }}</td>
+                    <td class="text-right"><a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge badge-success">&#128065; {{ e.allele.variant }}:{{ e.allele.sequence }}</span></a></th>
                 </tr>
 
                 {% endfor %}
@@ -129,7 +128,7 @@
                         {% endif %}
                     </th>
                     <td>{{ e.summary }}</td>
-                    <td class="text-right"><b>{{ e.allele.proportion }}%</b> <span class="badge badge-success">Allele</span> <span>{{ e.allele.variant }}:{{ e.allele.sequence }}</span></th>
+                    <td class="text-right"><b>{{ e.allele.proportion }}%</b> <a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge badge-success">&#128065; {{ e.allele.variant }}:{{ e.allele.sequence }}</span></a></th>
                 </tr>
                 {% endfor %}
 

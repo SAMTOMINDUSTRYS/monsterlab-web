@@ -87,6 +87,14 @@ class ReferenceAnnotation(models.Model):
     def __str__(self):
         return "%s:Chr1:%d - %s" % (self.reference.name, self.position, self.variant)
 
+    @property
+    def prev(self):
+        return ReferenceAnnotation.objects.filter(reference=self.reference, position__lt=self.position).order_by('position').last()
+
+    @property
+    def next(self):
+        return ReferenceAnnotation.objects.filter(reference=self.reference, position__gt=self.position).order_by('position').first()
+
 class Gene(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     code = models.CharField(max_length=8)
@@ -124,7 +132,11 @@ class VariantAllele(models.Model):
 
     @property
     def proportion(self):
-        return MonsterVariant.objects.filter(allele__variant=self.variant, allele__sequence=self.sequence).count() / float(MonsterVariant.objects.filter(allele__variant=self.variant).count()) * 100
+        try:
+            p = MonsterVariant.objects.filter(allele__variant=self.variant, allele__sequence=self.sequence).count() / float(MonsterVariant.objects.filter(allele__variant=self.variant).count()) * 100
+        except ZeroDivisionError:
+            return 0
+        return p
 
 class VariantEffect(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
