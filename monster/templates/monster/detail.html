@@ -54,7 +54,7 @@
                 <tr>
                 {% for ref, allele in annotations %}
                 <td class="cell-hover">
-                    <span class="badge badge-danger">{{ ref.variant }}</span></br>
+                    <a href="{% url 'list_monster_allele' ref.variant.id %}"><span class="badge badge-danger">&#128065; {{ ref.variant }}</span></a></br>
                     {% if allele %}
                     <span class="base">{{ allele.allele.sequence }}</span>
                     {% else %}

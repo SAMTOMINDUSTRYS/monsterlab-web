@@ -51,3 +51,4 @@ def list_monster_allele(request, variant_uuid, allele=None):
         "monsters": monsters,
         "loci": loci,
     })
+
