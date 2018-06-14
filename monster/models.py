@@ -6,18 +6,23 @@ import uuid
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
-#Event
-#    uuid
-#    datetime
-#    location
-#    name
-#    description
+class SequencingEvent(models.Model):
+    name = models.CharField(max_length=64)
+    description = models.CharField(max_length=255)
+    date = models.DateField()
+    location = models.CharField(max_length=64)
 #    sequencer ->
 #    labtech
 
+    def __str__(self):
+        return self.name
+
 class Monster(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    #event
+
+    event = models.ForeignKey('SequencingEvent')
+    number = models.PositiveIntegerField()
+
     name = models.CharField(max_length=64)
     reference = models.ForeignKey('Reference')
 
@@ -29,6 +34,9 @@ class Monster(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        unique_together = ('event', 'number',)
 
     def annotate(self, sequence):
         for i, base in enumerate(sequence):

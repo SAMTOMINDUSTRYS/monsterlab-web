@@ -13,4 +13,5 @@ admin.site.register(models.Gene)
 admin.site.register(models.VariantAllele)
 admin.site.register(models.VariantEffect)
 admin.site.register(models.MonsterVariant)
+admin.site.register(models.SequencingEvent)
 
