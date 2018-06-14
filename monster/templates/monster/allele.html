@@ -92,9 +92,9 @@
               <div class="card" style="margin-bottom: 20px;">
                     <div class="card-header">
                             <span class="badge badge-success">Monster</span><br/>
-                            <a class="text-muted" style="font-weight: bold; font-size: 0.65em" href="{% url 'detail' monster.id %}">{{ monster.id }}</a><br/>
+                            <a class="text-muted" style="font-weight: bold; font-size: 0.65em" href="{% url 'detail2' monster.event.name monster.number %}">{{ monster.id }}</a><br/>
                     </div>
-                    <div class="text-center"><a href="{% url 'detail' monster.id %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
+                    <div class="text-center"><a href="{% url 'detail2' monster.event.name monster.number %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
                     <div class="card-header">
                       <h2 class="card-title">{{ monster.name }}</h2>
                     </div>
@@ -107,7 +107,7 @@
                       </div>
                     </div>
                     <div class="card-footer">
-                        <a href="{% url 'detail' monster.id %}"><button type="button" style="font-size: 1em" class="btn btn-success">View Monster Genome</button></a>
+                        <a href="{% url 'detail2' monster.event.name monster.number %}"><button type="button" style="font-size: 1em" class="btn btn-success">View Monster Genome</button></a>
                     </div>
                 </div>
             {% endfor %}
