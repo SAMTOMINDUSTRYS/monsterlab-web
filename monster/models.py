@@ -186,7 +186,7 @@ class VariantAllele(models.Model):
             p = MonsterVariant.objects.filter(allele__variant=self.variant, allele__sequence=self.sequence).count() / float(MonsterVariant.objects.filter(allele__variant=self.variant).count()) * 100
         except ZeroDivisionError:
             return 0
-        return p
+        return "%.2f" % p
 
 class VariantEffect(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
