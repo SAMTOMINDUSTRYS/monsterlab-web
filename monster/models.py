@@ -45,11 +45,43 @@ class Monster(models.Model):
             return None
 
     @property
+    def fa_name(self):
+        return "%s_%s" % (self.name.replace(" ", "_"), str(self.id)[-5:])
+
+    @property
     def alleles(self):
         alleles = []
         for mv in self.monstervariant_set.all():
             alleles.append(mv.allele)
         return alleles
+
+    @property
+    def sequence(self):
+        reference = []
+        alleles = []
+        for a in self.reference.referenceannotation_set.order_by('position'):
+            reference.append( a )
+            alleles.append( self.get_variant_allele(a.variant.id) )
+
+        seq_str = "".join([a.allele.sequence for a in alleles])
+        return {"ref": reference, "seq": alleles, "seq_str": seq_str}
+
+
+    @property
+    def binarize(self):
+        bnn = []
+        for a in self.reference.referenceannotation_set.order_by('position'):
+            mv = self.get_variant_allele(a.variant.id)
+            alleles = [a.sequence for a in mv.allele.variant.variantallele_set.all().order_by('sequence')]
+            b = [0] * len(alleles)
+            b[ alleles.index(mv.allele.sequence) ] = 1
+
+            for e in mv.allele.variant.effects:
+                bnn.extend(b) 
+
+        return ",".join([str(x) for x in bnn])
+
+
 
 class Reference(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -59,6 +91,16 @@ class Reference(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def matrix(self):
+        es = []
+        for a in self.referenceannotation_set.order_by('position'):
+            for gene, effects in a.variant.effects.items():
+                for e in effects:
+                    es.append(e.summary.replace(" ", ""))
+        return ",".join(es)
+
 
     @property
     def annotated_genes(self):
@@ -150,6 +192,7 @@ class VariantEffect(models.Model):
 
     def __str__(self):
         return "%s:%s - %s" % (self.allele, self.gene.code, self.summary)
+
 
 class MonsterVariant(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

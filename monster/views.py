@@ -52,3 +52,41 @@ def list_monster_allele(request, variant_uuid, allele=None):
         "loci": loci,
     })
 
+def list_monster_hallele(request, variant_uuid, allele=None):
+
+    if allele:
+        allele = models.VariantAllele.objects.get(variant_id=variant_uuid, sequence=allele)
+    else:
+        allele = models.VariantAllele.objects.filter(variant_id=variant_uuid).first()
+
+    monsters = []
+    for mv in allele.monstervariant_set.all():
+        monsters.append( mv.monster )
+
+    loci = {}
+    for annot in models.ReferenceAnnotation.objects.filter(variant_id=variant_uuid):
+        loci[annot.reference.name] = (annot.prev, annot, annot.next)
+
+    return render(request, 'monster/hallele.html', {
+        "allele": allele,
+        "monsters": monsters,
+        "loci": loci,
+    })
+
+def fasta(request):
+    monsters = models.Monster.objects.all()
+
+    return render(request, 'monster/fasta.html', {
+        "monsters": monsters,
+    })
+
+def matrix(request):
+
+    reference = models.Reference.objects.all().first()
+    monsters = models.Monster.objects.filter(reference=reference)
+
+    return render(request, 'monster/matrix.html', {
+        "reference": reference,
+        "monsters": monsters,
+    })
+
