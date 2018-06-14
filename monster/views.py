@@ -31,6 +31,22 @@ def detail(request, monster_uuid):
         "annotations": zip(reference, alleles),
     })
 
+def detail2(request, event_name, monster_num):
+    event = get_object_or_404(models.SequencingEvent, name=event_name)
+    monster = get_object_or_404(models.Monster, event=event, number=monster_num)
+
+    # Fetch the annotations in order
+    reference = []
+    alleles = []
+    for a in monster.reference.referenceannotation_set.order_by('position'):
+        reference.append( a )
+        alleles.append( monster.get_variant_allele(a.variant.id) )
+
+    return render(request, 'monster/detail.html', {
+        "monster": monster,
+        "annotations": zip(reference, alleles),
+    })
+
 def list_monster_allele(request, variant_uuid, allele=None):
 
     if allele:

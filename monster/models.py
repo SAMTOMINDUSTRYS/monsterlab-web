@@ -7,7 +7,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 class SequencingEvent(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, unique=True, db_index=True)
     description = models.CharField(max_length=255)
     date = models.DateField()
     location = models.CharField(max_length=64)
@@ -21,7 +21,7 @@ class Monster(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     event = models.ForeignKey('SequencingEvent')
-    number = models.PositiveIntegerField()
+    number = models.PositiveIntegerField(db_index=True)
 
     name = models.CharField(max_length=64)
     reference = models.ForeignKey('Reference')
