@@ -123,7 +123,12 @@ class Reference(models.Model):
                     genes[gene][a.variant] = []
                 genes[gene][a.variant].extend(gene_effects[gene])
 
-        return genes
+        #TODO @samstudio8 ffs what are we fucking doing this is out of control
+        new_genes = {}
+        for gene_code in genes:
+            g = Gene.objects.filter(code=gene_code).first() #this is a disaster waiting to happen
+            new_genes[g] = genes[gene_code]
+        return new_genes
 
 class ReferenceAnnotation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -187,6 +192,14 @@ class VariantAllele(models.Model):
         except ZeroDivisionError:
             return 0
         return "%.2f" % p
+
+    @property
+    def inv_proportion(self):
+        try:
+            p = MonsterVariant.objects.filter(allele__variant=self.variant, allele__sequence=self.sequence).count() / float(MonsterVariant.objects.filter(allele__variant=self.variant).count()) * 100
+        except ZeroDivisionError:
+            return 100.0
+        return "%.2f" % (100.0-p)
 
 class VariantEffect(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

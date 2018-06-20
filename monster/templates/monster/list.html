@@ -7,7 +7,6 @@
         background-position: center center;
         background-repeat: no-repeat;
         background-image: url("https://monster-lab.org/static/banner.jpg");
-        margin-bottom: 25px;
         background-size: cover;
         '>
         <div class="container text-right" style="color: white; padding-top: 50px">
@@ -22,6 +21,17 @@
         </div>
         </div>
     </div>
+
+<div style="background-color: #888;">
+    <div class="container">
+    <div class="row">
+        <span style="font-size:1.5em; color:white; font-weight:bold; padding-top:12px; ">Latest Labs</span>
+    {% for event in events %}
+        <h3><a href="{% url 'list_event' event.name %}"><button type="button" class="btn btn-primary" style="margin:10px">{{ event.name }} ({{ event.location }})</button></a></h3>
+    {% endfor %}
+    </div>
+    </div>
+</div>
 
 <div class="container" style="margin-top: 25px;">
         <div class="card-deck">

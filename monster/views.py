@@ -11,9 +11,20 @@ def index(request):
 
 def list(request):
     monsters = models.Monster.objects.all()
+    events = models.SequencingEvent.objects.all().order_by("-date")
 
     return render(request, 'monster/list.html', {
         "monsters": monsters,
+        "events": events,
+    })
+
+def list_event(request, event_name):
+    event = get_object_or_404(models.SequencingEvent, name=event_name)
+    monsters = models.Monster.objects.all().filter(event__name=event_name)
+
+    return render(request, 'monster/list2.html', {
+        "monsters": monsters,
+        "event": event,
     })
 
 def detail(request, monster_uuid):
