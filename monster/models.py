@@ -76,6 +76,28 @@ class Monster(models.Model):
 
 
     @property
+    def sequence_pmatrix(self):
+        reference = []
+        alleles = []
+        for a in self.reference.referenceannotation_set.order_by('position'):
+            reference.append( a )
+            alleles.append( self.get_variant_allele(a.variant.id) )
+
+        m = [[0 for x in range(len(reference))] for y in range(len(reference))] 
+        for i in range(len(reference)):
+            for j in range(i+1):
+                try:
+                    a_i = set(alleles[i].allele.monstervariant_set.all().values_list('monster'))
+                    i_and_j = a_i.intersection(set(alleles[j].allele.monstervariant_set.all().values_list('monster')))
+                    m[i][j] = (float(len( i_and_j )) / len(a_i)) * 100.0
+#                except ZeroDivisionError:
+                except Exception as e:
+                    print e
+                    m[i][j] = 0.0
+        return m
+
+
+    @property
     def binarize(self):
         bnn = []
         for a in self.reference.referenceannotation_set.order_by('position'):
@@ -111,23 +133,27 @@ class Reference(models.Model):
 
 
     @property
-    def annotated_genes(self):
+    def annotate_effects_by_position(self):
         #TODO @samstudio8 This seems like it should be easier...
+        gene_first_seen = {}
         genes = {}
-        for a in self.referenceannotation_set.all():
+
+        for i, a in enumerate(self.referenceannotation_set.all().order_by('position')):
             gene_effects = a.variant.effects
             for gene in gene_effects:
-                if gene not in genes:
+                if gene not in gene_first_seen:
+                    gene_first_seen[gene] = i
                     genes[gene] = {}
+
                 if a.variant not in genes[gene]:
                     genes[gene][a.variant] = []
                 genes[gene][a.variant].extend(gene_effects[gene])
 
         #TODO @samstudio8 ffs what are we fucking doing this is out of control
-        new_genes = {}
-        for gene_code in genes:
+        new_genes = []
+        for gene_code in sorted(gene_first_seen, key=gene_first_seen.get):
             g = Gene.objects.filter(code=gene_code).first() #this is a disaster waiting to happen
-            new_genes[g] = genes[gene_code]
+            new_genes.append( (g, genes[gene_code]) )
         return new_genes
 
 class ReferenceAnnotation(models.Model):
