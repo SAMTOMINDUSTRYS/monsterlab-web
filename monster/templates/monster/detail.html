@@ -93,9 +93,23 @@
         {% with gene=g.0 variants=g.1 %}
             
             <table class="table table-hover table-active table-sm borderless">
+
+                <tr style="background-color: #999; color: black;">
+                    <th colspan=5>
+                        <span class="badge badge-warning">Gene</span> <span>{{ gene }}</span>
+                    </th>
+                </tr>
                 <tr style="background-color: #444; color: white;">
-                    <th colspan=4><span class="badge badge-warning">Gene</span> <span>{{ gene }}</span></br>
-                        <span style="font-size:1.5em"><b>{{ gene.desc }}</b></span><br><span style="font-size:0.8em;">{{ gene.name }}</span></th>
+                    <th colspan=5>
+                        <span style="font-size:1.6em"><b>{{ gene.desc }}</b></span>
+                    </th>
+                </tr>
+                <tr style="background-color: #444; color: white; font-size:0.8em;">
+                    <th colspan=3>
+                        <span>{{ gene.name }}</span>
+                    </th>
+                    <th class="text-right">Monster Sample</th>
+                    <th class="text-right">All Monster Population</th>
                 </tr>
 
                 {% for v, effects in variants.items %}
@@ -104,14 +118,15 @@
                 </tr>-->
                     {% for e in effects %}
                     <tr>
+                        <td style="background-color: #ccc;" class="text-center" width="4%">
+                            <a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge badge-success" style="font-size:1.1em">&#128065;</span></a>
+                        </td>
                         <th width="2%">
                             {% if e.allele in monster.alleles %}
-                                *
+                                <span style="font-size:1.1em">&#128566;</span>
                             {% endif %}
                         </th>
-                        <td>{{ e.summary }}
-                            <a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge badge-success">&#128065; {{ e.allele.variant }}:{{ e.allele.sequence }}</span></a>
-                        </td>
+                        <td><span style="font-weight:bold; font-size:1.1em">{{ e.summary }}</span></td>
                         <td width=20% class="text-right">
                             <div style="float:left; height:1em; width:{{ e.allele.inv_proportion }}%; background-color:#999"></div> 
                             <div style="float:left; height:1em; width:{{ e.allele.proportion }}%; background-color:{% colour_allele e %}"></div> 
@@ -135,16 +150,28 @@
   <div>
   <table class="table text-center">
 
+      <tr>
   {% for cell in monster.sequence_pmatrix|last %}
-    <td class="cell-hover" style="background-color: {% colour_allele cell %}" width="10%">
+    <th class="text-center" style="background-color:#292b2c; color:#fff;">
+        <span style="font-size:0.8em">1</span>:<span style="font-size:1.3em">{{ forloop.counter }}</span>
+    </th>
+  {% endfor %}
+  <td></td>
+  </tr>
+
+  <tr>
+  {% for cell in monster.sequence_pmatrix|last %}
+    <td class="cell-hover" style="padding:0;background-color: {% colour_allele cell %}" width="10%">
         <span class="base-sm">{{ cell }}</span>
     </td>
   {% endfor %}
   <td></td>
-  {% for row in monster.sequence_pmatrix|slice:"-1" %}
+  </tr>
+
   <tr>
+  {% for row in monster.sequence_pmatrix|slice:"-1" %}
       {% for cell in row|slice:":-1" %}
-      <td class="cell-hover" style="vertical-align:middle;{% if cell >= 33 %};font-size:1.2em;font-weight:bold;{% endif %}">
+      <td class="cell-hover" style="vertical-align:middle;{% if cell >= 33 %};font-size:1.2em;font-weight:bold;color:green{% endif %}{% if cell <= 20 %};font-size:1.2em;font-weight:bold;color:red{% endif %}">
           {% if cell > 0 %}
             {{ cell | floatformat:2 }}
           {% endif %}
@@ -153,6 +180,9 @@
       <td class="cell-hover" style="background-color: {% colour_allele row|last %}" width="10%">
           <span class="base-sm">{{ row|last }}</span>
       </td>
+      <th style="background-color:#292b2c; color:#fff;">
+        <span style="font-size:0.8em">1</span>:<span style="font-size:1.3em">{{ forloop.counter }}</span>
+      </th>
   </tr>
   {% endfor %}
   </table>
