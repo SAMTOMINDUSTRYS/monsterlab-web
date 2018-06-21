@@ -67,6 +67,9 @@
                 {% endfor %}
                 </tr>
 
+
+
+
                 <tr class="thead-inverse">
                 {% for ref, allele in annotations %}
                     <th class="text-center">
@@ -130,13 +133,27 @@
   </div>
 
   <div>
-  <table class="table">
-  {% for row in monster.sequence_pmatrix %}
-      <tr>
-      {% for cell in row %}
-          <td>{{ cell | floatformat:2 }}</td>
+  <table class="table text-center">
+
+  {% for cell in monster.sequence_pmatrix|last %}
+    <td class="cell-hover" style="background-color: {% colour_allele cell %}" width="10%">
+        <span class="base-sm">{{ cell }}</span>
+    </td>
+  {% endfor %}
+  <td></td>
+  {% for row in monster.sequence_pmatrix|slice:"-1" %}
+  <tr>
+      {% for cell in row|slice:":-1" %}
+      <td class="cell-hover" style="vertical-align:middle;{% if cell >= 33 %};font-size:1.2em;font-weight:bold;{% endif %}">
+          {% if cell > 0 %}
+            {{ cell | floatformat:2 }}
+          {% endif %}
+          </td>
       {% endfor %}
-      </tr>
+      <td class="cell-hover" style="background-color: {% colour_allele row|last %}" width="10%">
+          <span class="base-sm">{{ row|last }}</span>
+      </td>
+  </tr>
   {% endfor %}
   </table>
   </div>

@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^hallele/(?P<variant_uuid>[0-9a-f-]+)/(?P<allele>[A-z]+)/$', views.list_monster_hallele, name='list_monster_hallele'),
     url(r'^fasta/$', views.fasta, name='fasta'),
     url(r'^matrix/$', views.matrix, name='matrix'),
+    url(r'^matrix2/$', views.matrix2, name='matrix2'),
 ]

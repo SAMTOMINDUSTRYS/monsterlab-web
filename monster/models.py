@@ -83,17 +83,22 @@ class Monster(models.Model):
             reference.append( a )
             alleles.append( self.get_variant_allele(a.variant.id) )
 
-        m = [[0 for x in range(len(reference))] for y in range(len(reference))] 
+        m = [[-1 for x in range(len(reference))] for y in range(len(reference))] 
         for i in range(len(reference)):
             for j in range(i+1):
                 try:
                     a_i = set(alleles[i].allele.monstervariant_set.all().values_list('monster'))
                     i_and_j = a_i.intersection(set(alleles[j].allele.monstervariant_set.all().values_list('monster')))
-                    m[i][j] = (float(len( i_and_j )) / len(a_i)) * 100.0
+                    m[j][i] = (float(len( i_and_j )) / len(a_i)) * 100.0
 #                except ZeroDivisionError:
                 except Exception as e:
                     print e
-                    m[i][j] = 0.0
+                    m[j][i] = 0.0
+
+        # Add alleles to the ends of matrix
+        for irow, row in enumerate(m):
+            row.append(alleles[irow].allele.sequence)
+        m.append([a.allele.sequence for a in alleles])
         return m
 
 
@@ -110,6 +115,10 @@ class Monster(models.Model):
                 bnn.extend(b) 
 
         return ",".join([str(x) for x in bnn])
+
+    @property
+    def binarize_flat(self):
+        return self.binarize.replace(",", "")
 
 
 

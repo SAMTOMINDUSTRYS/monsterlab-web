@@ -117,3 +117,12 @@ def matrix(request):
         "monsters": monsters,
     })
 
+def matrix2(request):
+
+    reference = models.Reference.objects.all().first()
+    monsters = models.Monster.objects.filter(reference=reference)
+
+    return render(request, 'monster/matrix2.html', {
+        "reference": reference,
+        "monsters": monsters,
+    })
