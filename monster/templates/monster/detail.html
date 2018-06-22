@@ -91,87 +91,73 @@
         <h1>Genes</h1>
         {% for g in monster.reference.annotate_effects_by_position %}
         {% with gene=g.0 variants=g.1 %}
-            
-            <table class="table table-hover table-active table-sm borderless">
+
+            <table class="table table-hover table-active table-sm borderless" style="margin-bottom:0">
 
                 <tr style="background-color: #999; color: black;">
-                    <th colspan=5>
+                    <th colspan=12>
                         <span class="badge badge-warning">Gene</span> <span>{{ gene }}</span>
                     </th>
                 </tr>
                 <tr style="background-color: #444; color: white;">
-                    <th colspan=5>
-                        <span style="font-size:1.6em"><b>{{ gene.desc }}</b></span>
+                    <th colspan=12>
+                        <span style="font-size:1.6em"><b>{{ gene.desc }}</b></span></br>
+                        <span style="font-size:0.8em"><b>{{ gene.name }}</b></span>
                     </th>
-                </tr>
-                <tr style="background-color: #444; color: white; font-size:0.8em;">
-                    <th colspan=3>
-                        <span>{{ gene.name }}</span>
-                    </th>
-                    <th class="text-right">All Monster Population</th>
-                    <th class="text-right">Monster Sample</th>
                 </tr>
 
                 {% for v, effects in variants.items %}
                 <!--<tr style="background-color: #aaa;">
                     <th colspan=4><span class="badge badge-danger">Variant</span> <span>{{ v }}</span></th>
                 </tr>-->
-                    {% for e in effects %}
                     <tr>
+                    {% for e in effects %}
                         <td style="background-color: #ccc;" class="text-center" width="4%">
-                            <a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge badge-success" style="font-size:1.1em">&#128065;</span></a>
-                        </td>
-                        <th width="2%">
+                            <a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge" style="margin: 10px 0 10px 0; font-size:1.1em; background-color:{% colour_allele e %}">&#128065;</span></a>
+                            </br>
+                        <span style="font-weight:bold; font-size:1.2em">{{ e.summary }}</span>
                             {% if e.allele in monster.alleles %}
-                                <span style="font-size:1.1em">&#128566;</span>
+                            <span class="badge" style="font-size:1.1em; background-color:white;color:black;">&#128566; Me</span>
                             {% endif %}
-                        </th>
-                        <td><span style="font-weight:bold; font-size:1.1em">{{ e.summary }}</span></td>
-                        <td width=20% class="text-right">
-                            <div style="float:left; height:1em; width:{{ e.allele.inv_proportion }}%; background-color:#999"></div> 
-                            <div style="float:left; height:1em; width:{{ e.allele.proportion }}%; background-color:{% colour_allele e %}"></div> 
-                            <div style="clear: both;"></div>
-                            <b>{{ e.allele.proportion }}%</b>
-                        <td width=30% class="text-right">
-                            <div style="float:left; height:1em; width:{% sample_allele_inv e.allele monster.event %}%; background-color:#999"></div> 
-                            <div style="float:left; height:1em; width:{% sample_allele e.allele monster.event %}%; background-color:{% colour_allele e %}"></div> 
-                            <div style="clear: both;"></div>
-                            <b>{% sample_allele e.allele monster.event %}%</b>
-                        </th>
+                        </td>
                     {% endfor %}
-
-
-                    <td width=30%>
-                    <table>
-                        {% for event in populations %}
-                            <tr><td>{{ event.short_name }}</td>
-                                
-                            <td width="100%">
-                            {% for e in effects %}
-                                <div style="float:left; height:1em; width:{% sample_allele e.allele event 3 %}%; background-color:{% colour_allele e %}"></div>
-                            {% endfor %}
-                            </td>
-                            </tr>
-                        {% endfor %}
-                        <tr><td>
-                                <hr>
-                                POP</td><td width=97.5%>
-                                <hr>
-                        {% for e in effects %}
-                            <div style="float:left; height:1em; width:{% sample_allele e.allele d=3 %}%; background-color:{% colour_allele e %}"></div>
-                        {% endfor %}
-                        </td></tr>
-                    </table>
-
-
                     </td>
+                    </tr>
 
+                </table>
+                <table class="table table-hover table-active table-sm borderless" style="margin-top:0">
 
+                {% for event in populations %}
+                    <tr><td>
+                            <span style="font-size:1.2em; font-weight:bold;"><code>{{ event.short_name }}</code></span>  <span style="font-size:0.75em; font-weight:bold;">{{ event.location }}</span>
+                            {% if event == monster.event %}
+                                <span class="badge" style="font-size:0.9em; background-color:white;color:black;">&#128566; Me</span>
+                            {% endif %}
+                            </br>
+                    {% for e in effects %}
+                        <div style="float:left; height:1em; width:{% sample_allele e.allele event 3 %}%; background-color:{% colour_allele e %}"></div>
+
+                    {% endfor %}
+                    </td>
                     </tr>
                 {% endfor %}
+
+                    <tr></tr>
+
+                    <tr><td><span style="font-size:1.2em; font-weight:bold;">All Monster Population</span></br>
+                {% for e in effects %}
+                    <div style="float:left; height:1em; width:{% sample_allele e.allele d=3 %}%; background-color:{% colour_allele e %}"></div>
+                {% endfor %}
+                    </td>
+                </td></tr>
             </table>
+
+
+
+                {% endfor %}
         {% endwith %}
         {% endfor %}
+
     </div>
   </div>
 
