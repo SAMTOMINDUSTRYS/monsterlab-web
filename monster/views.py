@@ -37,6 +37,7 @@ def detail(request, monster_uuid):
         reference.append( a )
         alleles.append( monster.get_variant_allele(a.variant.id) )
 
+    print "hello", events
     return render(request, 'monster/detail.html', {
         "monster": monster,
         "annotations": zip(reference, alleles),
@@ -45,6 +46,7 @@ def detail(request, monster_uuid):
 def detail2(request, event_name, monster_num):
     event = get_object_or_404(models.SequencingEvent, name=event_name)
     monster = get_object_or_404(models.Monster, event=event, number=monster_num)
+    events = models.SequencingEvent.objects.all().order_by("-date")
 
     # Fetch the annotations in order
     reference = []
@@ -56,6 +58,7 @@ def detail2(request, event_name, monster_num):
     return render(request, 'monster/detail.html', {
         "monster": monster,
         "annotations": zip(reference, alleles),
+        "populations": events,
     })
 
 def list_monster_allele(request, variant_uuid, allele=None):

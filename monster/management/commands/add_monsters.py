@@ -31,7 +31,7 @@ class Command(BaseCommand):
                 last_reference = models.Reference.objects.get(pk=fields[1])
 
             elif fields[0] == "E":
-                last_event = models.SequencingEvent(name=fields[1], description=fields[2], date=datetime.strptime(fields[3], "%Y-%m-%d"), location=fields[4])
+                last_event = models.SequencingEvent(name=fields[1], short_name=fields[2], description=fields[3], date=datetime.strptime(fields[4], "%Y-%m-%d"), location=fields[5])
                 last_event.save()
 
             elif fields[0] == "D":

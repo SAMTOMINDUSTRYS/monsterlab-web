@@ -108,8 +108,8 @@
                     <th colspan=3>
                         <span>{{ gene.name }}</span>
                     </th>
-                    <th class="text-right">Monster Sample</th>
                     <th class="text-right">All Monster Population</th>
+                    <th class="text-right">Monster Sample</th>
                 </tr>
 
                 {% for v, effects in variants.items %}
@@ -138,8 +138,36 @@
                             <div style="clear: both;"></div>
                             <b>{% sample_allele e.allele monster.event %}%</b>
                         </th>
-                    </tr>
                     {% endfor %}
+
+
+                    <td width=30%>
+                    <table>
+                        {% for event in populations %}
+                            <tr><td>{{ event.short_name }}</td>
+                                
+                            <td width="100%">
+                            {% for e in effects %}
+                                <div style="float:left; height:1em; width:{% sample_allele e.allele event 3 %}%; background-color:{% colour_allele e %}"></div>
+                            {% endfor %}
+                            </td>
+                            </tr>
+                        {% endfor %}
+                        <tr><td>
+                                <hr>
+                                POP</td><td width=97.5%>
+                                <hr>
+                        {% for e in effects %}
+                            <div style="float:left; height:1em; width:{% sample_allele e.allele d=3 %}%; background-color:{% colour_allele e %}"></div>
+                        {% endfor %}
+                        </td></tr>
+                    </table>
+
+
+                    </td>
+
+
+                    </tr>
                 {% endfor %}
             </table>
         {% endwith %}

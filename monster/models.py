@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class SequencingEvent(models.Model):
     name = models.CharField(max_length=64, unique=True, db_index=True)
+    short_name = models.CharField(max_length=8, db_index=True)
     description = models.CharField(max_length=255)
     date = models.DateField()
     location = models.CharField(max_length=64)
