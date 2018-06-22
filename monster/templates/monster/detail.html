@@ -94,9 +94,9 @@
 
             <table class="table table-hover table-active table-sm borderless" style="margin-bottom:0">
 
-                <tr style="background-color: #999; color: black;">
+                <tr style="background-color: #222; color: white;">
                     <th colspan=12>
-                        <span class="badge badge-warning">Gene</span> <span>{{ gene }}</span>
+                        <span class="badge badge-warning" style="color:black">Gene</span> <span>{{ gene }}</span>
                     </th>
                 </tr>
                 <tr style="background-color: #444; color: white;">
@@ -112,20 +112,16 @@
                 </tr>-->
                     <tr>
                     {% for e in effects %}
-                        <td style="background-color: #ccc;" class="text-center" width="4%">
+                        <td style="background-color: #ccc;" class="text-center" width=25%>
                             <a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge" style="margin: 10px 0 10px 0; font-size:1.1em; background-color:{% colour_allele e %}">&#128065;</span></a>
                             </br>
-                        <span style="font-weight:bold; font-size:1.2em">{{ e.summary }}</span>
-                            {% if e.allele in monster.alleles %}
-                            <span class="badge" style="font-size:1.1em; background-color:white;color:black;">&#128566; Me</span>
-                            {% endif %}
+                        <span style="font-weight:bold; font-size:1.2em">{{ e.summary }}</span>  {% if e.allele in monster.alleles %}<span class="badge" style="font-size:1.1em; background-color:white;color:black;">&#128566; Me</span>{% endif %}
                         </td>
                     {% endfor %}
-                    </td>
                     </tr>
 
                 </table>
-                <table class="table table-hover table-active table-sm borderless" style="margin-top:0">
+                <table class="table table-hover table-active table-sm borderless" style="margin-top:0; margin-bottom:0">
 
                 {% for event in populations %}
                     <tr><td>
@@ -142,14 +138,21 @@
                     </tr>
                 {% endfor %}
 
-                    <tr></tr>
-
-                    <tr><td><span style="font-size:1.2em; font-weight:bold;">All Monster Population</span></br>
+                    <tr style="background-color: #ccc"><td style="padding-top:5px; padding-bottom: 5px"><span style="font-size:1.2em; font-weight:bold;">All Monster Population</span></br>
                 {% for e in effects %}
                     <div style="float:left; height:1em; width:{% sample_allele e.allele d=3 %}%; background-color:{% colour_allele e %}"></div>
                 {% endfor %}
                     </td>
                 </td></tr>
+            </table>
+            <table class="table table-hover table-active table-sm borderless" style="margin-top:0; margin-bottom:45px;">
+                <tr>
+                {% for e in effects %}
+                <td style="background-color: #ccc;" class="text-center" width="{% sample_allele e.allele d=3 %}%">
+                        <b>{% sample_allele e.allele d=2 %}%</b>
+                    </td>
+                {% endfor %}
+                </tr>
             </table>
 
 

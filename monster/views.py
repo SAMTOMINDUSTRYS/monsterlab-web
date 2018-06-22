@@ -10,12 +10,14 @@ def index(request):
     return HttpResponse("Hello, world. You're at the monsterlab index.")
 
 def list(request):
-    monsters = models.Monster.objects.all()
+    monsters = models.Monster.objects.all().order_by('?')
     events = models.SequencingEvent.objects.all().order_by("-date")
 
     return render(request, 'monster/list.html', {
         "monsters": monsters,
         "events": events,
+        "n_labs": len(events),
+        "n_monsters": len(monsters),
     })
 
 def list_event(request, event_name):
