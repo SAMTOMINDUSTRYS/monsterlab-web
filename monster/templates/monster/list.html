@@ -29,12 +29,12 @@
             </div>
 
             <div class="col-md-3">
-            <span style="font-size:3em; color:white; font-weight:bold; padding-top:12px; ">{{ n_labs }}</span>
+            <span style="font-size:4em; color:white; font-weight:bold; padding-top:12px; ">{{ n_labs }}</span>
             <span style="font-size:1.5em; color:white; font-weight:bold; padding-top:12px; ">Labs</span>
             </div>
 
             <div class="col-md-3">
-            <span style="font-size:3em; color:white; font-weight:bold; padding-top:12px; ">{{ n_monsters }}</span>
+            <span style="font-size:4em; color:white; font-weight:bold; padding-top:12px; ">{{ n_monsters }}</span>
             <span style="font-size:1.5em; color:white; font-weight:bold; padding-top:12px; ">Monsters</span>
             </div>
 
@@ -58,12 +58,12 @@
 <div class="container" style="padding-top: 25px;">
         <div class="card-deck">
             {% for monster in monsters %}
-              <div class="card card-monster" style="margin-bottom: 35px;">
+              <div class="card card-monster" style="margin-bottom: 35px; margin-left: 15px;">
                     <div class="card-header card-header-monster">
                       <h2 class="card-title">{{ monster.name }}</h2>
                     </div>
                     <div class="text-center"><a href="{% url 'detail2' monster.event.name monster.number %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
-                    <div class="card-block">
+                    <div class="card-block card-block-monster">
                       <div class="card-text">
                         <table class="table table-sm" style="margin-bottom:0;">
                             <tr>
