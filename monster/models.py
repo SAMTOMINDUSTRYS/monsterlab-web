@@ -12,6 +12,10 @@ class SequencingEvent(models.Model):
     description = models.CharField(max_length=255)
     date = models.DateField()
     location = models.CharField(max_length=64)
+
+    colour_bg = models.CharField(max_length=10)
+    colour_fg = models.CharField(max_length=10)
+
 #    sequencer ->
 #    labtech
 
