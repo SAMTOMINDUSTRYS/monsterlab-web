@@ -2,7 +2,7 @@
 {% load thumbnail %}
 {% include 'monster/header.html' %}
 
-<div style="background-color:#5cb85c">
+<div style="background-color:#{{ event.colour_bg }}; color:#{{ event.colour_fg }}">
     <div class="container">
     <div class="row">
 
@@ -11,13 +11,13 @@
         </div>
 
         <div class="col-md-5" style="padding: 10px 0 0 30px ;">
-            <span style="font-size:2.25em; color:white; font-weight:bold;">{{ event.description }}</span></br>
-            <span style="font-size:1em; color:white; font-weight:bold; ">{{ event.location }}</span>
+            <span style="font-size:2.25em; color:#{{ event.colour_fg }}; font-weight:bold;">{{ event.description }}</span></br>
+            <span style="font-size:1em; color:#{{ event.colour_fg }}; font-weight:bold; ">{{ event.location }}</span>
         </div>
 
         <div class="col-md-4 text-right" style="padding-top: 10px; line-height:1">
-            <span style="font-size:4em; color:white; font-weight:bold;">{{ n_monsters }}</span></br>
-            <span style="font-size:1em; color:white; font-weight:bold;">Monsters</span>
+            <span style="font-size:4em; color:#{{ event.colour_fg }}; font-weight:bold;">{{ n_monsters }}</span></br>
+            <span style="font-size:1em; color:#{{ event.colour_fg }}; font-weight:bold;">Monsters</span>
         </div>
     </div>
     </div>

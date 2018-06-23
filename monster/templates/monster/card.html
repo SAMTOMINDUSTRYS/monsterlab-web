@@ -1,7 +1,7 @@
 {% load static %}
 {% load thumbnail %}
-<div class="card card-monster" style="margin-bottom: 35px; margin-left: 15px;">
-    <div class="card-header card-header-monster">
+<div class="card card-monster" style="margin-bottom: 35px; margin-left: 15px;background-color:#{{ monster.event.colour_bg }};border: 1px solid #{{ monster.event.colour_bg }}">
+    <div class="card-header card-header-monster" style="color:#{{ monster.event.colour_fg }};background-color:#{{ monster.event.colour_bg }};border: 1px solid #{{ monster.event.colour_bg }}">
       <h2 class="card-title">{{ monster.name }}</h2>
     </div>
     <div class="text-center"><a href="{% url 'detail2' monster.event.name monster.number %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <a href="{% url 'detail2' monster.event.name monster.number %}">
-        <div class="card-footer card-footer-monster text-center">
+        <div class="card-footer card-footer-monster text-center" style="background-color:#{{ monster.event.colour_bg }};color:#{{ monster.event.colour_fg }};;border: 1px solid #{{ monster.event.colour_bg }}">
             &#128065; View Monster
         </button>
     </div>
