@@ -1,0 +1,31 @@
+{% load static %}
+{% load thumbnail %}
+<div class="card card-monster" style="margin-bottom: 35px; margin-left: 15px;">
+    <div class="card-header card-header-monster">
+      <h2 class="card-title">{{ monster.name }}</h2>
+    </div>
+    <div class="text-center"><a href="{% url 'detail2' monster.event.name monster.number %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
+    <div class="card-block card-block-monster">
+      <div class="card-text">
+        <table class="table table-sm" style="margin-bottom:0;">
+            <tr>
+            <td>
+                <span class="badge badge-default">Scientist Name</span>
+                <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.scientist_name }}</span>
+            </td>
+            <td>
+                <span class="badge badge-default">Scientist Institute</span>
+                <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.institute_name }}</span>
+            </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+    <a href="{% url 'detail2' monster.event.name monster.number %}">
+        <div class="card-footer card-footer-monster text-center">
+            &#128065; View Monster
+        </button>
+    </div>
+    </a>
+</div>
+

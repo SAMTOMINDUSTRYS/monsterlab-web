@@ -1,0 +1,32 @@
+{% load static %}
+{% load thumbnail %}
+{% include 'monster/header.html' %}
+
+<div style="background-color:#5cb85c">
+    <div class="container">
+    <div class="row">
+
+        <div class="col-md-3 text-left">
+            <span class="badge" style="background-color:white;color:black;margin:15px 0 15px 0;font-size: 3em">{{ event.name }}</span>
+        </div>
+
+        <div class="col-md-5" style="padding: 10px 0 0 30px ;">
+            <span style="font-size:2.25em; color:white; font-weight:bold;">{{ event.description }}</span></br>
+            <span style="font-size:1em; color:white; font-weight:bold; ">{{ event.location }}</span>
+        </div>
+
+        <div class="col-md-4 text-right" style="padding-top: 10px; line-height:1">
+            <span style="font-size:4em; color:white; font-weight:bold;">{{ n_monsters }}</span></br>
+            <span style="font-size:1em; color:white; font-weight:bold;">Monsters</span>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+{% include 'monster/list.html' with monsters=monsters n_monsters=n_monsters n_labs=n_labs events=events %}
+
+
+{% include 'monster/footer.html' %}
+

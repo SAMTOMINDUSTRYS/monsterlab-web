@@ -1,0 +1,7 @@
+{% load static %}
+{% load thumbnail %}
+
+{% for monster in monsters %}
+>{{monster.fa_name}}<br/>
+{{ monster.binarize_flat }}<br/>
+{% endfor %}

@@ -1,39 +1,16 @@
-{% load static %}
-{% load thumbnail %}
-{% include 'monster/header.html' %}
-
-    <div style='
-        height: 550px;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-image: url("https://monster-lab.org/static/banner.jpg");
-        background-size: cover;
-        '>
-        <div class="container text-right" style="color: white; padding-top: 50px">
-          <div class="row" style="background-color: rgba(50, 50, 50, 0.5);">
-              <div class="col-md-5"></div>
-              <div class="col-md-7">
-        <h1 style="font-size: 5em">Hello.</h1>
-        <h3 style="font-size: 3em">We sequence monsters.</h3>
-        <p><b>Monster Lab is a public engagement project to introduce schoolchildren to concepts of genomics and DNA sequencing. Participants build a DNA sequence from Lego blocks, and sequence them with a computer that converts the coloured blocks to a DNA sequence. Participants use a gene sheet that describes how each base affects how their monster looks to draw a monster for the Monster Lab directory.</b></p>
-        <p><b><a href="https://twitter.com/monsterdnalab"><span class="badge badge-info">@MonsterDNALab</span></a> was lovingly crafted by <a href="https://twitter.com/samstudio8"><span class="badge badge-primary">@samstudio8</span></a> and <a href="https://twitter.com/tomjblanchard"><span class="badge badge-primary">@tomjblanchard</span></a>, <a href="https://samnicholls.net/2017/03/15/lego-sequencer/"><span class="badge badge-success">read more...</span></a></b></p>
-        </div>
-        </div>
-        </div>
-    </div>
-
+{% if n_labs > 1 %}
 <div style="background-color: #222; color: white;">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 text-center">
             <span style="font-size:4em; color:white; font-weight:bold; padding-top:12px; ">{{ n_labs }}</span>
             <span style="font-size:1.5em; color:white; font-weight:bold; padding-top:12px; ">Labs</span>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 text-center">
             <span style="font-size:4em; color:white; font-weight:bold; padding-top:12px; ">{{ n_monsters }}</span>
             <span style="font-size:1.5em; color:white; font-weight:bold; padding-top:12px; ">Monsters</span>
             </div>
@@ -43,6 +20,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 <div style="background-color: #888;">
     <div class="container">
     <div class="row">
@@ -58,36 +36,8 @@
 <div class="container" style="padding-top: 25px;">
         <div class="card-deck">
             {% for monster in monsters %}
-              <div class="card card-monster" style="margin-bottom: 35px; margin-left: 15px;">
-                    <div class="card-header card-header-monster">
-                      <h2 class="card-title">{{ monster.name }}</h2>
-                    </div>
-                    <div class="text-center"><a href="{% url 'detail2' monster.event.name monster.number %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
-                    <div class="card-block card-block-monster">
-                      <div class="card-text">
-                        <table class="table table-sm" style="margin-bottom:0;">
-                            <tr>
-                            <td>
-                                <span class="badge badge-default">Scientist Name</span>
-                                <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.scientist_name }}</span>
-                            </td>
-                            <td>
-                                <span class="badge badge-default">Scientist Institute</span>
-                                <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.institute_name }}</span>
-                            </td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                    <a href="{% url 'detail2' monster.event.name monster.number %}">
-                        <div class="card-footer card-footer-monster text-center">
-                            &#128065; View Monster
-                        </button>
-                    </div>
-                    </a>
-                </div>
+                {% include 'monster/card.html' with monster=monster %}
             {% endfor %}
         </div>
 </div>
-
-{% include 'monster/footer.html' %}
+</div>

@@ -9,11 +9,11 @@ from . import models
 def index(request):
     return HttpResponse("Hello, world. You're at the monsterlab index.")
 
-def list(request):
+def home(request):
     monsters = models.Monster.objects.all().order_by('?')
     events = models.SequencingEvent.objects.all().order_by("-date")
 
-    return render(request, 'monster/list.html', {
+    return render(request, 'monster/home.html', {
         "monsters": monsters,
         "events": events,
         "n_labs": len(events),
@@ -23,10 +23,14 @@ def list(request):
 def list_event(request, event_name):
     event = get_object_or_404(models.SequencingEvent, name=event_name)
     monsters = models.Monster.objects.all().filter(event__name=event_name)
+    events = models.SequencingEvent.objects.all().order_by("-date")
 
-    return render(request, 'monster/list2.html', {
+    return render(request, 'monster/event.html', {
         "monsters": monsters,
         "event": event,
+        "events": events,
+        "n_labs": 1,
+        "n_monsters": len(monsters),
     })
 
 def detail(request, monster_uuid):

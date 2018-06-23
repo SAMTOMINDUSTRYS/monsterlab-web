@@ -1,0 +1,7 @@
+{% load static %}
+{% load thumbnail %}
+
+Name,{{ reference.matrix }},Sequence
+{% for monster in monsters %}
+{{monster.fa_name}},{{ monster.binarize }},{{ monster.sequence.seq_str }}<br/>
+{% endfor %}
