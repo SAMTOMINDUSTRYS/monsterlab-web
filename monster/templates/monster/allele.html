@@ -1,6 +1,7 @@
 {% load static %}
 {% load thumbnail %}
 {% include 'monster/header.html' %}
+{% load dna %}
 
 <div class="container-fluid">
     <div class="row">
@@ -11,39 +12,78 @@
 
         <hr>  
 
-        <h3>Alleles</h3>
-        <table class="table table-hover table-active table-sm borderless">
-            {% for a in allele.variant.variantallele_set.all %}
-                {% if allele.sequence == a.sequence %}
-                    <tr class="table-active">
-                {% else %}
-                    <tr class="">
-                {% endif %}
-                <td class="text-center"><b>{{ a.sequence }}</b></td>
-                <td><a href="{% url 'list_monster_allele' a.variant.id a.sequence %}"><span class="badge badge-success">&#128065; {{ a }}</span></a></td>
-                <td class="text-right"><b>{{ a.proportion }}%</b></th>
-            </tr>
+            <table class="table table-hover table-active table-sm borderless" style="margin-bottom:0">
+            {% for a in allele.varianteffect_set.all %}
+
+                <tr style="background-color: #222; color: white;">
+                    <th colspan=12>
+                        <span class="badge badge-warning" style="color:black">Gene</span> <span>{{ a.gene.code }}</span>
+                    </th>
+                </tr>
+                <tr style="background-color: #444; color: white;">
+                    <th colspan=12>
+                        <span style="font-size:1.6em"><b>{{ a.gene.desc }}</b></span></br>
+                        <span style="font-size:0.8em"><b>{{ a.gene.name }}</b></span>
+                    </th>
+                </tr>
+
+                    <tr>
+                    {% for va in allele.variant.variantallele_set.all %}
+                        {% for e in va.varianteffect_set.all %}
+                        <td style="{% if e.allele.sequence == allele.sequence %}background-color:#333;color:white;{% else %}background-color:#ccc;color:black{% endif %}" class="text-center" width=25%>
+                            <a href="{% url 'list_monster_allele' e.allele.variant.id e.allele.sequence %}"><span class="badge" style="margin: 10px 0 10px 0; font-size:1.1em; background-color:{% colour_allele e %}">&#128065;</span></a>
+                                </br>
+                            <span style="font-weight:bold; font-size:1.2em">{{ e.summary }}</span>
+                        </td>
+                        {% endfor %}
+                    {% endfor %}
+                    </tr>
+
+                </table>
+
+
+                <table class="table table-hover table-active table-sm borderless" style="margin-top:0; margin-bottom:0">
+
+                {% for event in populations %}
+                    <tr style="background-color: #444"><td>
+                            <span style="font-size:1.2em; font-weight:bold;"><code>{{ event.short_name }}</code></span>  <span style="font-size:0.75em; font-weight:bold;">{{ event.location }}</span>
+                            </br>
+                    {% for va in allele.variant.variantallele_set.all %}
+                        {% for e in va.varianteffect_set.all %}
+                        <div style="float:left; height:1em; width:{% sample_allele e.allele event 3 %}%; background-color:{% colour_allele e %}"></div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    </td>
+                    </tr>
+                {% endfor %}
+
+                    <tr style="background-color: #333"><td style="padding-top:5px; padding-bottom: 5px"><span style="font-size:1.2em; font-weight:bold;">All Monster Population</span></br>
+                    {% for va in allele.variant.variantallele_set.all %}
+                        {% for e in va.varianteffect_set.all %}
+                    <div style="float:left; height:1em; width:{% sample_allele e.allele d=3 %}%; background-color:{% colour_allele e %}"></div>
+                        {% endfor %}
+                    {% endfor %}
+                    </td>
+                </td></tr>
+            </table>
+            <table class="table table-hover table-active table-sm borderless" style="margin-top:0; margin-bottom:45px;">
+                <tr>
+                    {% for va in allele.variant.variantallele_set.all %}
+                        {% for e in va.varianteffect_set.all %}
+                <td style="background-color: #333;" class="text-center" width="{% sample_allele e.allele d=3 %}%">
+                        <b>{% sample_allele e.allele d=2 %}%</b>
+                    </td>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+
             {% endfor %}
-        </table>
+            </table>
 
-        <hr>  
-        
-        <h3>Associations</h3>
-        <table class="table table-hover table-active table-sm borderless">
-            {% for e in allele.varianteffect_set.all %}
-            <tr style="background-color: #444;">
-                <td>
-                    <span class="badge badge-warning">Gene</span> <span>{{ e.gene.code }}</span></br>
-                    <b>{{ e.gene.name }}</b> ({{ e.gene.desc }})
-                </td>
-            </tr>
 
-            <tr>
-                <td>{{ e.summary }}</td>
-            </tr>
 
-            {% endfor %}
-        </table>
+
 
         <hr>  
         
@@ -84,32 +124,15 @@
         </table>
         {% endfor %}
 
+
+
+
     </div>
 
     <div class="col-md-10">
         <div class="card-deck" style="padding-top: 20px">
             {% for monster in monsters %}
-              <div class="card" style="margin-bottom: 20px;">
-                    <div class="card-header">
-                            <span class="badge badge-success">Monster</span><br/>
-                            <a class="text-muted" style="font-weight: bold; font-size: 0.65em" href="{% url 'detail2' monster.event.name monster.number %}">{{ monster.id }}</a><br/>
-                    </div>
-                    <div class="text-center"><a href="{% url 'detail2' monster.event.name monster.number %}"><img class="card-img-top" src="{% thumbnail monster.record_image 338x200 crop %}" alt="{{ monster.name }}"></a></div>
-                    <div class="card-header">
-                      <h2 class="card-title">{{ monster.name }}</h2>
-                    </div>
-                    <div class="card-block">
-                      <div class="card-text">
-                        <span class="badge badge-default">Scientist Name</span>
-                        <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.scientist_name }}</span>
-                        <span class="badge badge-default">Scientist Institute</span>
-                        <span class="uuid-mast" style="margin-top:0; padding-top:0;">{{ monster.institute_name }}</span>
-                      </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{% url 'detail2' monster.event.name monster.number %}"><button type="button" style="font-size: 1em" class="btn btn-success">View Monster Genome</button></a>
-                    </div>
-                </div>
+                {% include 'monster/card.html' with monster=monster %}
             {% endfor %}
         </div>
     </div>    

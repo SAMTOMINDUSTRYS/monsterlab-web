@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import random
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
 from . import models
+
 
 def index(request):
     return HttpResponse("Hello, world. You're at the monsterlab index.")
@@ -43,7 +45,6 @@ def detail(request, monster_uuid):
         reference.append( a )
         alleles.append( monster.get_variant_allele(a.variant.id) )
 
-    print "hello", events
     return render(request, 'monster/detail.html', {
         "monster": monster,
         "annotations": zip(reference, alleles),
@@ -69,6 +70,7 @@ def detail2(request, event_name, monster_num):
 
 def list_monster_allele(request, variant_uuid, allele=None):
 
+    events = models.SequencingEvent.objects.all().order_by("-date")
     if allele:
         allele = models.VariantAllele.objects.get(variant_id=variant_uuid, sequence=allele)
     else:
@@ -82,10 +84,12 @@ def list_monster_allele(request, variant_uuid, allele=None):
     for annot in models.ReferenceAnnotation.objects.filter(variant_id=variant_uuid):
         loci[annot.reference.name] = (annot.prev, annot, annot.next)
 
+    random.shuffle(monsters)
     return render(request, 'monster/allele.html', {
         "allele": allele,
         "monsters": monsters,
         "loci": loci,
+        "populations": events,
     })
 
 def list_monster_hallele(request, variant_uuid, allele=None):
