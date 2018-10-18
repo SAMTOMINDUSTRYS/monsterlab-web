@@ -24,9 +24,9 @@
 <div style="background-color: #888;">
     <div class="container">
     <div class="row">
-        <span style="font-size:1.5em; color:white; font-weight:bold; padding-top:12px; ">Latest Labs</span>
+        <!--<span style="font-size:1.5em; color:white; font-weight:bold; padding-top:12px; ">Labs</span>-->
     {% for event in events %}
-        <h3><a href="{% url 'list_event' event.name %}"><button type="button" class="btn btn-primary" style="margin:10px">{{ event.name }} ({{ event.location }})</button></a></h3>
+    <h3><a href="{% url 'list_event' event.name %}"><button type="button" class="btn btn-active" style="margin:10px;background-color:#{{event.colour_bg}}; color:#{{ event.colour_fg }};"><b>{{ event.name }}</b><br/><span style="font-size:0.8em">{{ event.location }}</span></button></a></h3>
     {% endfor %}
     </div>
     </div>

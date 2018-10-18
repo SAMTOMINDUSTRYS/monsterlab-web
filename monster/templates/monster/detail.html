@@ -131,7 +131,7 @@
                             {% endif %}
                             </br>
                     {% for e in effects %}
-                        <div style="float:left; height:1em; width:{% sample_allele e.allele event 3 %}%; background-color:{% colour_allele e %}"></div>
+                        <div style="float:left; height:1em; width:{% sample_allele e.allele event d=4 %}%; background-color:{% colour_allele e %}"></div>
 
                     {% endfor %}
                     </td>
@@ -140,7 +140,7 @@
 
                     <tr style="background-color: #ccc"><td style="padding-top:5px; padding-bottom: 5px"><span style="font-size:1.2em; font-weight:bold;">All Monster Population</span></br>
                 {% for e in effects %}
-                    <div style="float:left; height:1em; width:{% sample_allele e.allele d=3 %}%; background-color:{% colour_allele e %}"></div>
+                    <div style="float:left; height:1em; width:{% sample_allele e.allele d=4 %}%; background-color:{% colour_allele e %}"></div>
                 {% endfor %}
                     </td>
                 </td></tr>
@@ -148,7 +148,7 @@
             <table class="table table-hover table-active table-sm borderless" style="margin-top:0; margin-bottom:45px;">
                 <tr>
                 {% for e in effects %}
-                <td style="background-color: #ccc;" class="text-center" width="{% sample_allele e.allele d=3 %}%">
+                <td style="background-color: #ccc;" class="text-center" width="{% sample_allele e.allele d=4 %}%">
                         <b>{% sample_allele e.allele d=2 %}%</b>
                     </td>
                 {% endfor %}
